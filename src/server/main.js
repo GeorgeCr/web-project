@@ -21,7 +21,7 @@ app.get('/images/', (req, res) => {
     const { searchTerm } = req.query;
     flickr.photos.search({
         text: searchTerm,
-        per_page: 10
+        per_page: 9
     })
     .then(data => {
         photos = data.body.photos.photo;
@@ -31,15 +31,23 @@ app.get('/images/', (req, res) => {
 });
 
 app.get('/tweets/', (req, res) => {
-    const { searchTerm } = req.query;
+    const { searchTerm, resultsCount } = req.query;
     const params = {
         q: searchTerm,
-        count: 2
+        count: resultsCount
     }
     TwitInstance.get('search/tweets', params, (err, data, response) => {
-        res.json({
-            data
-        });
+        try {
+            res.json({
+                data
+            });
+        }
+        catch {
+            res.json({
+                errorMessage: err
+            });
+        }
+        
     });
 });
 

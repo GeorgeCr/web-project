@@ -7,35 +7,45 @@ import Results from './client/components/Results/Results';
 export default class App extends React.Component {
 
   state = {
-    photoUrls: []
+    flickrUrls: [],
+    tweets: [],
+    searchTerm: ''
   }
 
-  async componentDidMount() {
-    const response = await fetch('http://localhost:8080/images/?searchTerm=family').then(res => res.json());
+  setSearchTerm = (value) => {
     this.setState({
-      photoUrls: response
+      searchTerm: value
     });
-    const tweets = await fetch('http://localhost:8080/tweets/?searchTerm=doggos').then(res => res.json());
-    console.log(tweets);
+  }
+
+  makeSearch = async () => {
+    const { searchTerm } = this.state;
+    if (searchTerm) {
+      const flickrUrls = await fetch(`http://localhost:8080/images/?searchTerm=${searchTerm}`).then(res => res.json());
+      this.setState({
+        flickrUrls
+      });
+      const tweets = await fetch(`http://localhost:8080/tweets/?searchTerm=${searchTerm}&resultsCount=3`).then(res => res.json());
+      this.setState({
+        tweets: tweets.data.statuses
+      });
+    } else {
+      console.log('please type something...');
+    }
   }
 
   render() {
-    const { photoUrls } = this.state;
+    const { flickrUrls, tweets } = this.state;
     return (
       <div className="App">
-        {
-          photoUrls.map((photoUrl, index) => {
-            return <img key={`p-${index}`} src={photoUrl} alt="searched-item" />
-          })
-        }
         <header className="header">
           <Header />
         </header>
         <div className="search">
-          <Search />
+          <Search setSearchTerm={this.setSearchTerm} makeSearch={this.makeSearch} />
         </div>
         <div className="results">
-          <Results />
+          <Results flickrUrls={flickrUrls} tweets={tweets} />
         </div>
       </div>
     );
