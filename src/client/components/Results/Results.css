@@ -1,0 +1,21 @@
+ul {
+    list-style-type: none;
+    margin-left: -30px;
+}
+img {
+    width: 300px;
+}
+.container {
+    display: flex;
+}
+.div1 {
+width:66%;
+top: 50%;
+left: 50%;
+
+margin-right: 300px;
+}
+.div2 {
+width:34%;
+position: absolute;
+}
