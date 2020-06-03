@@ -1,15 +1,15 @@
 import React from 'react';
 import './Results.css';
+import TwitterCard from '../TwitterCard/TwitterCard';
 
 function Results({ flickrUrls, tweets }) {
-    console.log(tweets);
     return (
         <div className="results-container">
             <div className="flickr-results-container">
                 <h3>Flickr results: </h3>
                 <ul className="flickr-results-list">
                     {
-                        flickrUrls.map((url, index) => {
+                        flickrUrls.map((url, index) => { // crearea a cate un tag img pentru fiecare url mapat
                             return (
                                 <img className="flickr-img" key={`f-${index}`} src={url} alt="flickr" />
                             )
@@ -21,9 +21,9 @@ function Results({ flickrUrls, tweets }) {
                 <h3>Twitter results: </h3>
                 <ul className="twitter-results-list">
                     {
-                        tweets.map((tweet, index) => {
+                        tweets.map((tweet, index) => { // iterarea pe lista de tweets returnate si injectarea datelor in fiecare twitter card
                             return (
-                                <p key={`t-${index}`}>{tweet.text}</p>
+                                <TwitterCard key={`t-${index}`} data={tweet} />
                             )
                         })
                     }

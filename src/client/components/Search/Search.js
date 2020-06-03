@@ -3,14 +3,23 @@ import './Search.css';
 
 function Search(props) {
 
+    /**
+     * Functie pentru setarea termenului de cautare prin pasarea acestuia catre componenta App
+     */
     const setSearchTerm = (event) => {
         props.setSearchTerm(event.currentTarget.value);
     }
 
+    /**
+     * Lansarea functiei de search din componenta App
+     */
     const makeSearch = () => {;
         props.makeSearch();
     }
 
+    /**
+     * Prinderea tastei Enter si pentru acest caz, lansarea search-ului
+     */
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             props.makeSearch();
